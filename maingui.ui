@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>文东柳</author>
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>896</width>
+    <height>524</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>文东柳的期末作业</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>文大帅哥的作业,防盗水印</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>文大帅哥的作业，防盗水印</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>896</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_Exit">
+    <property name="title">
+     <string>选项</string>
+    </property>
+    <addaction name="actionOpenFile"/>
+    <addaction name="action12"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>操作</string>
+    </property>
+    <addaction name="actionGray_histogram"/>
+    <addaction name="actionHistogram_equalization"/>
+    <addaction name="actionGray_inversion"/>
+    <addaction name="actionLogarithmic_change"/>
+    <addaction name="actionImage_plus_noise"/>
+    <addaction name="actionSpatial_denoising"/>
+    <addaction name="actionFrequency_domain_denoising"/>
+    <addaction name="actionEdge_extraction"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>关于</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAuthor"/>
+   </widget>
+   <addaction name="menu_Exit"/>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action12">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>OpenImage</string>
+   </property>
+  </action>
+  <action name="actionGray_histogram">
+   <property name="text">
+    <string>Gray histogram</string>
+   </property>
+  </action>
+  <action name="actionHistogram_equalization">
+   <property name="text">
+    <string>Histogram equalization</string>
+   </property>
+  </action>
+  <action name="actionGray_inversion">
+   <property name="text">
+    <string>Gray inversion</string>
+   </property>
+  </action>
+  <action name="actionLogarithmic_change">
+   <property name="text">
+    <string>Logarithmic change</string>
+   </property>
+  </action>
+  <action name="actionImage_plus_noise">
+   <property name="text">
+    <string>Image plus noise</string>
+   </property>
+  </action>
+  <action name="actionSpatial_denoising">
+   <property name="text">
+    <string>Spatial denoising</string>
+   </property>
+  </action>
+  <action name="actionFrequency_domain_denoising">
+   <property name="text">
+    <string>Frequency domain denoising</string>
+   </property>
+  </action>
+  <action name="actionEdge_extraction">
+   <property name="text">
+    <string>Edge extraction</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAuthor">
+   <property name="text">
+    <string>Author</string>
+   </property>
+  </action>
+ </widget>
+ <includes>
+  <include location="local">文东柳个人期末作业</include>
+ </includes>
+ <resources/>
+ <connections/>
+</ui>
