@@ -14,20 +14,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(896, 524)
+        mainWindow.resize(428, 304)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setToolTipDuration(-1)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 0, 1, 1, 1)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 896, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 428, 26))
         self.menubar.setObjectName("menubar")
         self.menu_Exit = QtWidgets.QMenu(self.menubar)
         self.menu_Exit.setObjectName("menu_Exit")
@@ -89,9 +87,8 @@ class Ui_mainWindow(object):
 
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
-        mainWindow.setWindowTitle(_translate("mainWindow", "上岸NNNU的期末作业"))
-        self.label.setText(_translate("mainWindow", "文大帅哥的作业,防盗水印"))
-        self.label_2.setText(_translate("mainWindow", "文大帅哥的作业，防盗水印"))
+        mainWindow.setWindowTitle(_translate("mainWindow", "文东柳的期末作业"))
+        self.label.setText(_translate("mainWindow", "选择的图片将在这里显示"))
         self.menu_Exit.setTitle(_translate("mainWindow", "选项"))
         self.menu.setTitle(_translate("mainWindow", "操作"))
         self.menu_2.setTitle(_translate("mainWindow", "关于"))

@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>896</width>
-    <height>524</height>
+    <width>428</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,15 +18,11 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
-      <property name="text">
-       <string>文大帅哥的作业,防盗水印</string>
+      <property name="toolTipDuration">
+       <number>-1</number>
       </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>文大帅哥的作业，防盗水印</string>
+       <string>选择的图片将在这里显示</string>
       </property>
      </widget>
     </item>
@@ -37,7 +33,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>896</width>
+     <width>428</width>
      <height>26</height>
     </rect>
    </property>

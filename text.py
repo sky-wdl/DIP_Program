@@ -1,8 +1,15 @@
-def openimage(self):
+# 用来做代码效果测试的
 
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
 
+img = np.array(Image.open('D:/test1.jpg').convert('L'))
 
-    open_image = tk.Tk
-    open_image().withdraw()
-    open_image_path = filedialog.askopenfile()
-    print(open_image_path.name)
+plt.figure("lena")
+
+arr = img.flatten()
+
+plt.hist(arr)
+
+plt.show()

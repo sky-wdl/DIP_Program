@@ -38,25 +38,41 @@ def click_Exit():
 # ------------------操作------------------
 def click_actionGray_histogram():  # 1
     print('调试输出，证明程序已进入到此函数开始执行，code=1')
-    img = Image.open(open_image_path.name)
-    Img = img.convert('L')
-    Img.save('D:/test1.jpg')
-    read_image = cv2.imread('D:/test1.jpg')
-    print('code=1.1')
-    plt.hist(read_image.ravel(), 256)
-    print('code=1.2')
-    plt.savefig('D:/test2.jpg')
-    print('code=1.3')
+    # 转换为矩阵形式
+    img = np.array(Image.open('open_image_path.name').convert('L'))
+    # 调试输出，标志执行过程状态
+    print('code=1.0')
+    plt.figure("lena")
+    arr = img.flatten()
+    plt.hist(arr)
     plt.show()
-    img = Image.open('D:/test2.jpg')
-    img.show()
+    img.close()
+#    img_l = img.convert('L')
+#    img_l.save('D:/test1.jpg')
+#    img_l.show()
+#    read_img = cv2.imread('D:/test1.jpg')
+#    print('code=1.0')
+#    img_l = cv2.imread('D:/test1.jpg')
+
+#    print('code=1.1')
+#    img_ravel = img_l.ravel()
+
+#    print('code=1.2')
+#    plt.hist(img_ravel, 256)
+
+#    print('code=1.3')
+#    plt.savefig('D:/test2.jpg')
+#    print('code=1.3')
+#    plt.show()
+#    img_l.show()
     # 只要一导入标签2就闪退，问题无解，暂时把下面这句注释掉
 #    maingui.label_2.setPixmap('D:/test2.jpg')
+
     # 开始直方图均衡化，使用equalizeHist函数，导入灰度处理后的图片
     equ = cv2.equalizeHist('D:/test1.jpg')
     # 将两张图片按照水平方式堆叠起来，这样看起来比较有对比
-    res = np.hstack((img, equ))
-    cv2.imshow('直方图均衡化', res)
+#    res = np.hstack((img_l, equ))
+#    cv2.imshow('直方图均衡化', res)
 
 
 def click_actionHistogram_equalization():  # 2
