@@ -10,6 +10,34 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+# ------------------公共函数------------------
+# 返回尺寸
+def resize(w, h, w_box, h_box, pil_image):
+    f1 = 1.0 * w_box / w
+    f2 = 1.0 * h_box / h
+    factor = min([f1, f2])
+    width = int(w * factor)
+    height = int(h * factor)
+    return pil_image.resize((width, height), Image.ANTIALIAS)
+
+
+# 显示图片
+def showimg(img, isgray=False):
+    plt.axis("off")
+    if isgray == True:
+        plt.imshow(img, cmap='gray')
+    else:
+        plt.imshow(img)
+    plt.show()
+
+
+# ------------------公共函数------------------end
+
+
+# ------------------全局变量------------------
+# ------------------全局变量------------------end
+
+
 # ------------------选项------------------
 # 选择图片文件目录
 def click_openImage():
@@ -32,75 +60,290 @@ def click_Exit():
     sys.exit()
 
 
+# 拉普拉斯
+def MyLaplace(img, window, c):
+    m = window.shape[0]
+    n = window.shape[1]
+
+    img_border = np.zeros((img.shape[0] + m - 1, img.shape[1] + n - 1))
+    img_border[(m - 1) // 2:(img.shape[0] + (m - 1) // 2),
+    (n - 1) // 2:(img.shape[1] + (n - 1) // 2)] = img
+
+    img_result = np.zeros(img.shape)
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            temp = img_border[i: i + m, j: j + n]
+            img_result[i, j] = np.sum(np.multiply(temp, window))
+    img_result = img + c * img_result
+    return Image.fromarray(img_border), Image.fromarray(img_result)
+
+
 # ------------------选项------------------end
 
 
 # ------------------操作------------------
 def click_actionGray_histogram():  # 1
     print('调试输出，证明程序已进入到此函数开始执行，code=1')
-    # 转换为矩阵形式
-    img = np.array(Image.open('open_image_path.name').convert('L'))
-    # 调试输出，标志执行过程状态
-    print('code=1.0')
-    plt.figure("lena")
-    arr = img.flatten()
-    plt.hist(arr)
+    #  src = cv2.imread(open_image_path.name)
+    #  cv2.imshow("src", src)
+    #
+    #  plt.hist(src.ravel(), 256)
+    #  plt.show()
+    #
+    #  cv2.waitKey(0)
+    #  cv2.destroyAllWindows()
+    #
+    #  img_l = img.convert('L')
+    #  img_l.save('D:/test1.jpg')
+    #  img_l.show()
+    #  read_img = cv2.imread('D:/test1.jpg')
+    #  print('code=1.0')
+    #  img_l = cv2.imread('D:/test1.jpg')
+    #
+    #  print('code=1.1')
+    #  img_ravel = img_l.ravel()
+    #
+    #  print('code=1.2')
+    #  plt.hist(img_ravel, 256)
+    #
+    #  print('code=1.3')
+    #  plt.savefig('D:/test2.jpg')
+    # print('code=1.3')
+    # plt.show()
+    # img_l.show()
+    #  只要一导入标签2就闪退，问题无解，暂时把下面这句注释掉
+    # maingui.label_2.setPixmap('D:/test2.jpg')
+    #
+    #  开始直方图均衡化，使用equalizeHist函数，导入灰度处理后的图片
+    # equ = cv2.equalizeHist(open_image_path.name)
+    #  将两张图片按照水平方式堆叠起来，这样看起来比较有对比
+    # res = np.hstack((src, equ))
+    # cv2.imshow('直方图均衡化', res)
+    img = Image.open(open_image_path.name)
+    print('即将进行灰度变化，code=1.0')
+    src = np.array(img.convert("L"))
+    print('灰度变化end，进行矩阵设置，code=1.1')
+    dest = np.zeros_like(src)
+    print('矩阵设置end，进行直方图，code=1.2')
+
+    src1_for_hist = np.array(src).reshape(1, -1).tolist()
+    plt.title("灰度直方图", fontsize='16')
+    plt.hist(src1_for_hist, bins=255, density=0)
     plt.show()
-    img.close()
-#    img_l = img.convert('L')
-#    img_l.save('D:/test1.jpg')
-#    img_l.show()
-#    read_img = cv2.imread('D:/test1.jpg')
-#    print('code=1.0')
-#    img_l = cv2.imread('D:/test1.jpg')
+    print('进行直方图end，code=1.3')
 
-#    print('code=1.1')
-#    img_ravel = img_l.ravel()
+    src2_for_hist = np.array(dest).reshape(1, -1).tolist()
+    plt.title("灰度直方图(均衡化)", fontsize='16')
+    plt.hist(src2_for_hist, bins=255, density=0)
+    plt.show()
+    print('进行灰度直方图end，code=1.4')
 
-#    print('code=1.2')
-#    plt.hist(img_ravel, 256)
+    plt.title("灰度图", fontsize='16')
+    plt.imshow(src, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+    print('进行灰度图end，code=1.5')
 
-#    print('code=1.3')
-#    plt.savefig('D:/test2.jpg')
-#    print('code=1.3')
-#    plt.show()
-#    img_l.show()
-    # 只要一导入标签2就闪退，问题无解，暂时把下面这句注释掉
-#    maingui.label_2.setPixmap('D:/test2.jpg')
+    gray_times = []
+    for i in range(256):
+        gray_times.append(np.sum(src == i))
+    normalied_gray = gray_times / np.sum(gray_times)
+    rk2sk = []
+    for rk in range(256):
+        sk = 0
+        for k in range(rk):
+            sk += normalied_gray[k]
+        rk2sk.append(256 * sk)
 
-    # 开始直方图均衡化，使用equalizeHist函数，导入灰度处理后的图片
-    equ = cv2.equalizeHist('D:/test1.jpg')
-    # 将两张图片按照水平方式堆叠起来，这样看起来比较有对比
-#    res = np.hstack((img_l, equ))
-#    cv2.imshow('直方图均衡化', res)
+    width, height = src.shape
+    for i in range(width - 1):
+        for j in range(height):
+            dest[i][j] = rk2sk[src[i][j]]
+
+    plt.title("灰度图（均衡化）", fontsize='16')
+    plt.imshow(dest, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+    print('进行灰度图均衡化end，code=1.6')
 
 
-def click_actionHistogram_equalization():  # 2
+def click_actionHistogram_equalization():  # 2灰度变化
     print('调试输出，证明程序已进入到此函数开始执行，code=2')
+    # 灰度反相
+    im = Image.open(open_image_path.name)
+    im_l = im.convert('L')
+    im_l.show()
+    # im_arr = np.array(im_gray)
+    # im1 = 255 - im_arr
+    # showimg(Image.fromarray(im1))
+
+    print('code=2.0')
+    img_gray = im_l.point(lambda i: 256 - i - 1)
+    plt.title("灰度反转", fontsize='16')
+    plt.imshow(img_gray, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+
+    print('code=2.1')
+    img_log = im_l.point(lambda i: 20 * 255 * np.log(1 + i / 255))
+    plt.title("对数变换", fontsize='16')
+    plt.imshow(img_log, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+
+    print('code=2.2')
+    imarray = np.array(im_l)
+    height, width = imarray.shape
+    for i in range(height):
+        for j in range(width):
+            aft = int(imarray[i, j] + 55)
+            if aft <= 255 and aft >= 0:
+                imarray[i, j] = aft
+            elif aft > 255:
+                imarray[i, j] = 255
+            else:
+                imarray[i, j] = 0
+    img_lin = Image.fromarray(imarray)
+    plt.title("线性变换", fontsize='16')
+    plt.imshow(img_lin, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+    print('code=2,end')
 
 
-def click_actionGray_inversion():  # 3
+def click_actionGray_inversion():  # 3几何变换
     print('调试输出，证明程序已进入到此函数开始执行，code=3')
+    img = open(open_image_path.name)
+    # print('code=3.0')
+    # img1 = np.array(img)
+    # height, width = img1.shape[:2]
+    print('code=3.1')
+    img_fd = cv2.resize(img, (0, 0), fx=2, fy=2, interpolation=cv2.INTER_AREA)  # 放大
+    print('code=3.2')
+    plt.title("放大（×2）", fontsize='16')
+    print('code=3.3')
+    plt.imshow(img_fd)
+    print('code=3.4')
+    plt.axis()
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.show()
+    print('code=3.0,end')
+
+    img_sx = cv2.resize(img, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)  # 缩小
+    plt.title("缩小（×0.5）", fontsize='16')
+    plt.imshow(img_sx)
+    plt.axis()
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.show()
+
+    rex = cv2.getRotationMatrix2D((width / 2, height / 2), 90, 1)  # 旋转
+    img_xz = cv2.warpAffine(img1, rex, (width, height))
+    plt.title("旋转（90°）", fontsize='16')
+    plt.imshow(img_xz)
+    plt.axis()
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.show()
+
+    H = np.float32([[1, 0, 50], [0, 1, 25]])
+    img_wy = cv2.warpAffine(img1, H, (width, height))
+    plt.title("位移", fontsize='16')
+    plt.imshow(img_wy)
+    plt.axis()
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.show()
 
 
-def click_actionLogarithmic_change():  # 4
-    print('调试输出，证明程序已进入到此函数开始执行，code=4')
-
-
-def click_actionImage_plus_noise():  # 5
-    print('调试输出，证明程序已进入到此函数开始执行，code=5')
-
-
-def click_actionSpatial_denoising():  # 6
-    print('调试输出，证明程序已进入到此函数开始执行，code=6')
-
-
-def click_actionFrequency_domain_denoising():  # 7
-    print('调试输出，证明程序已进入到此函数开始执行，code=7')
+# def click_actionLogarithmic_change():  # 4
+#     print('调试输出，证明程序已进入到此函数开始执行，code=4')
+#
+#
+# def click_actionImage_plus_noise():  # 5
+#     print('调试输出，证明程序已进入到此函数开始执行，code=5')
+#
+#
+#
+# def click_actionSpatial_denoising():  # 6
+#     print('调试输出，证明程序已进入到此函数开始执行，code=6')
+#     # 拉普拉斯变换
+#     laplace = np.array([[0, 1, 0],
+#                         [1, -4, 1],
+#                         [0, 1, 0]])
+#
+#     laplace2 = np.array([[1, 1, 1],
+#                          [1, -8, 1],
+#                          [1, 1, 1]])
+#
+#     sobel_filter_v = np.array([[-1, 0, 1],
+#                                [-2, 0, 2],
+#                                [-1, 0, 1], ])
+#
+#     sobel_filter_h = np.array([[-1, -2, -1],
+#                                [0, 0, 0],
+#                                [1, 2, 1], ])
+#
+#     img = np.array(Image.open("D:/images/lena.jpg").convert("L"))
+#     img_border, img_result = MyLaplace(img, sobel_filter_h, 0.2)
+#     img_border.show()
+#     img_result.show()
+#
+#
+# def click_actionFrequency_domain_denoising():  # 7
+#     print('调试输出，证明程序已进入到此函数开始执行，code=7')
 
 
 def click_actionEdge_extraction():  # 8
     print('调试输出，证明程序已进入到此函数开始执行，code=8')
+    # robert 算子
+    img = cv2.cvtColor(np.array(open_image_path.name), cv2.COLOR_BGR2GRAY)
+    r, c = img.shape
+    r_sunnzi = [[-1, -1], [1, 1]]
+    for x in range(r):
+        for y in range(c):
+            if (y + 2 <= c) and (x + 2 <= r):
+                imgChild = img[x:x + 2, y:y + 2]
+                list_robert = r_sunnzi * imgChild
+                img[x, y] = abs(list_robert.sum())
+    plt.title("robert算子", fontsize='16')
+    plt.imshow(img, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+
+    # sobel算子
+    img = cv2.cvtColor(np.array(open_image_path.name), cv2.COLOR_BGR2GRAY)
+    r, c = img.shape
+    new_image = np.zeros((r, c))
+    new_imageX = np.zeros(img.shape)
+    new_imageY = np.zeros(img.shape)
+    s_suanziX = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])  # X方向
+    s_suanziY = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+    for i in range(r - 2):
+        for j in range(c - 2):
+            new_imageX[i + 1, j + 1] = abs(np.sum(img[i:i + 3, j:j + 3] * s_suanziX))
+            new_imageY[i + 1, j + 1] = abs(np.sum(img[i:i + 3, j:j + 3] * s_suanziY))
+            new_image[i + 1, j + 1] = (new_imageX[i + 1, j + 1] * new_imageX[i + 1, j + 1] + new_imageY[i + 1, j + 1] *
+                                       new_imageY[i + 1, j + 1]) ** 0.5
+    img_1 = np.uint8(new_image)
+    plt.title("sobel算子", fontsize='16')
+    plt.imshow(img_1, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
+
+    # Laplace算子
+    r, c = img.shape
+    new_image = np.zeros((r, c))
+    L_sunnzi = np.array([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
+    for i in range(r - 2):
+        for j in range(c - 2):
+            new_image[i + 1, j + 1] = abs(np.sum(img[i:i + 3, j:j + 3] * L_sunnzi))
+    img_2 = np.uint8(new_image)
+    plt.title("laplace算子", fontsize='16')
+    plt.imshow(img_2, cmap='gray', vmin=0, vmax=255)
+    plt.axis('off')
+    plt.show()
 
 
 # ------------------操作------------------end
@@ -118,10 +361,10 @@ if __name__ == '__main__':
     maingui.actionGray_histogram.triggered.connect(click_actionGray_histogram)  # 1
     maingui.actionHistogram_equalization.triggered.connect(click_actionHistogram_equalization)  # 2
     maingui.actionGray_inversion.triggered.connect(click_actionGray_inversion)  # 3
-    maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
-    maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
-    maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
-    maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
+    # maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
+    # maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
+    # maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
+    # maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
     maingui.actionEdge_extraction.triggered.connect(click_actionEdge_extraction)  # 8
 
     MainWindow.show()

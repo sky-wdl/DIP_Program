@@ -22,7 +22,7 @@
        <number>-1</number>
       </property>
       <property name="text">
-       <string>选择的图片将在这里显示</string>
+       <string>选择的图片将在这里显示  文东柳的作业</string>
       </property>
      </widget>
     </item>
@@ -101,32 +101,32 @@
   </action>
   <action name="actionHistogram_equalization">
    <property name="text">
-    <string>Histogram equalization</string>
+    <string>Grayscale transformation</string>
    </property>
   </action>
   <action name="actionGray_inversion">
    <property name="text">
-    <string>Gray inversion</string>
+    <string>Geometric transformation</string>
    </property>
   </action>
   <action name="actionLogarithmic_change">
    <property name="text">
-    <string>Logarithmic change</string>
+    <string>null</string>
    </property>
   </action>
   <action name="actionImage_plus_noise">
    <property name="text">
-    <string>Image plus noise</string>
+    <string>null</string>
    </property>
   </action>
   <action name="actionSpatial_denoising">
    <property name="text">
-    <string>Spatial denoising</string>
+    <string>null</string>
    </property>
   </action>
   <action name="actionFrequency_domain_denoising">
    <property name="text">
-    <string>Frequency domain denoising</string>
+    <string>null</string>
    </property>
   </action>
   <action name="actionEdge_extraction">
