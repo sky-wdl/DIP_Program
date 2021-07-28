@@ -326,10 +326,10 @@ if __name__ == '__main__':
     maingui.actionGray_histogram.triggered.connect(click_actionGray_histogram)  # 1
     maingui.actionHistogram_equalization.triggered.connect(click_actionHistogram_equalization)  # 2
     maingui.actionGray_inversion.triggered.connect(click_actionGray_inversion)  # 3
-    maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
-    maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
-    maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
-    maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
+    # maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
+    # maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
+    # maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
+    # maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
     maingui.actionEdge_extraction.triggered.connect(click_actionEdge_extraction)  # 8
 
     MainWindow.show()
