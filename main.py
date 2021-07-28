@@ -60,24 +60,6 @@ def click_Exit():
     sys.exit()
 
 
-# 拉普拉斯
-def MyLaplace(img, window, c):
-    m = window.shape[0]
-    n = window.shape[1]
-
-    img_border = np.zeros((img.shape[0] + m - 1, img.shape[1] + n - 1))
-    img_border[(m - 1) // 2:(img.shape[0] + (m - 1) // 2),
-    (n - 1) // 2:(img.shape[1] + (n - 1) // 2)] = img
-
-    img_result = np.zeros(img.shape)
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            temp = img_border[i: i + m, j: j + n]
-            img_result[i, j] = np.sum(np.multiply(temp, window))
-    img_result = img + c * img_result
-    return Image.fromarray(img_border), Image.fromarray(img_result)
-
-
 # ------------------选项------------------end
 
 
@@ -213,92 +195,75 @@ def click_actionHistogram_equalization():  # 2灰度变化
 
 def click_actionGray_inversion():  # 3几何变换
     print('调试输出，证明程序已进入到此函数开始执行，code=3')
-    img = open(open_image_path.name)
-    # print('code=3.0')
-    # img1 = np.array(img)
-    # height, width = img1.shape[:2]
-    print('code=3.1')
-    img_fd = cv2.resize(img, (0, 0), fx=2, fy=2, interpolation=cv2.INTER_AREA)  # 放大
-    print('code=3.2')
-    plt.title("放大（×2）", fontsize='16')
-    print('code=3.3')
-    plt.imshow(img_fd)
-    print('code=3.4')
-    plt.axis()
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.show()
-    print('code=3.0,end')
+    img = Image.open(open_image_path.name)
+    # 获取图像的大小
+    print(img.size)
+    # 获取图像 width
+    print(img.size[0])
+    # 获取图像 height
+    print(img.size[1])
 
-    img_sx = cv2.resize(img, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)  # 缩小
-    plt.title("缩小（×0.5）", fontsize='16')
-    plt.imshow(img_sx)
-    plt.axis()
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.show()
+    img_2 = img.resize((img.size[0] * 2, img.size[1] * 2), Image.ANTIALIAS)  # 放大两倍
+    img.show()
+    img_2.show()
+    print('code=3.1,end')
 
-    rex = cv2.getRotationMatrix2D((width / 2, height / 2), 90, 1)  # 旋转
-    img_xz = cv2.warpAffine(img1, rex, (width, height))
-    plt.title("旋转（90°）", fontsize='16')
-    plt.imshow(img_xz)
-    plt.axis()
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.show()
+    img_3 = img.resize((int(img.size[0] * 0.5), int(img.size[1] * 0.5)), Image.ANTIALIAS)  # 缩小两倍
+    img_3.show()
+    print('code=3.2,end')
 
-    H = np.float32([[1, 0, 50], [0, 1, 25]])
-    img_wy = cv2.warpAffine(img1, H, (width, height))
-    plt.title("位移", fontsize='16')
-    plt.imshow(img_wy)
-    plt.axis()
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.show()
+    # mg = img.transpose(Image.ROTATE_90)  # 将图片旋转90度
+    img_4 = img.transpose(Image.ROTATE_180)  # 将图片旋转180度
+    # img = img.transpose(Image.ROTATE_270)  # 将图片旋转270度
+    img_4.show()
+    # img.save("img/rotateImg.png")
+    print('code=3.3,end')
+
+    img = cv2.imread(open_image_path.name)
+    rows, cols, _ = img.shape
+    M = np.float32([[1, 0, -100], [0, 1, 50]])
+    dst = cv2.warpAffine(img, M, (cols, rows))
+    cv2.imshow("2", dst)
+    print('code=3.4,end')
 
 
-# def click_actionLogarithmic_change():  # 4
-#     print('调试输出，证明程序已进入到此函数开始执行，code=4')
-#
-#
-# def click_actionImage_plus_noise():  # 5
-#     print('调试输出，证明程序已进入到此函数开始执行，code=5')
-#
-#
-#
-# def click_actionSpatial_denoising():  # 6
-#     print('调试输出，证明程序已进入到此函数开始执行，code=6')
-#     # 拉普拉斯变换
-#     laplace = np.array([[0, 1, 0],
-#                         [1, -4, 1],
-#                         [0, 1, 0]])
-#
-#     laplace2 = np.array([[1, 1, 1],
-#                          [1, -8, 1],
-#                          [1, 1, 1]])
-#
-#     sobel_filter_v = np.array([[-1, 0, 1],
-#                                [-2, 0, 2],
-#                                [-1, 0, 1], ])
-#
-#     sobel_filter_h = np.array([[-1, -2, -1],
-#                                [0, 0, 0],
-#                                [1, 2, 1], ])
-#
-#     img = np.array(Image.open("D:/images/lena.jpg").convert("L"))
-#     img_border, img_result = MyLaplace(img, sobel_filter_h, 0.2)
-#     img_border.show()
-#     img_result.show()
-#
-#
-# def click_actionFrequency_domain_denoising():  # 7
-#     print('调试输出，证明程序已进入到此函数开始执行，code=7')
+def click_actionLogarithmic_change():  # 4
+    print('调试输出，证明程序已进入到此函数开始执行，code=4')
+
+
+def click_actionImage_plus_noise():  # 5
+    print('调试输出，证明程序已进入到此函数开始执行，code=5')
+
+
+
+def click_actionSpatial_denoising():  # 6
+    print('调试输出，证明程序已进入到此函数开始执行，code=6')
+    # 拉普拉斯变换
+    laplace = np.array([[0, 1, 0],
+                        [1, -4, 1],
+                        [0, 1, 0]])
+
+    laplace2 = np.array([[1, 1, 1],
+                         [1, -8, 1],
+                         [1, 1, 1]])
+
+    sobel_filter_v = np.array([[-1, 0, 1],
+                               [-2, 0, 2],
+                               [-1, 0, 1], ])
+
+    sobel_filter_h = np.array([[-1, -2, -1],
+                               [0, 0, 0],
+                               [1, 2, 1], ])
+
+
+def click_actionFrequency_domain_denoising():  # 7
+    print('调试输出，证明程序已进入到此函数开始执行，code=7')
 
 
 def click_actionEdge_extraction():  # 8
     print('调试输出，证明程序已进入到此函数开始执行，code=8')
     # robert 算子
-    img = cv2.cvtColor(np.array(open_image_path.name), cv2.COLOR_BGR2GRAY)
+    img = cv2.imread(open_image_path.name, cv2.IMREAD_GRAYSCALE)
     r, c = img.shape
     r_sunnzi = [[-1, -1], [1, 1]]
     for x in range(r):
@@ -361,10 +326,10 @@ if __name__ == '__main__':
     maingui.actionGray_histogram.triggered.connect(click_actionGray_histogram)  # 1
     maingui.actionHistogram_equalization.triggered.connect(click_actionHistogram_equalization)  # 2
     maingui.actionGray_inversion.triggered.connect(click_actionGray_inversion)  # 3
-    # maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
-    # maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
-    # maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
-    # maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
+    maingui.actionLogarithmic_change.triggered.connect(click_actionLogarithmic_change)  # 4
+    maingui.actionImage_plus_noise.triggered.connect(click_actionImage_plus_noise)  # 5
+    maingui.actionSpatial_denoising.triggered.connect(click_actionSpatial_denoising)  # 6
+    maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
     maingui.actionEdge_extraction.triggered.connect(click_actionEdge_extraction)  # 8
 
     MainWindow.show()
