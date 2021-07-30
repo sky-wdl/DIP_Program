@@ -7,12 +7,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>428</width>
-    <height>304</height>
+    <width>293</width>
+    <height>281</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>文东柳的期末作业</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../迅雷下载/开发者文件夹/Applications.ico</normaloff>../../../迅雷下载/开发者文件夹/Applications.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -33,7 +37,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>428</width>
+     <width>293</width>
      <height>26</height>
     </rect>
    </property>
@@ -62,7 +66,6 @@
      <string>关于</string>
     </property>
     <addaction name="actionAbout"/>
-    <addaction name="actionAuthor"/>
    </widget>
    <addaction name="menu_Exit"/>
    <addaction name="menu"/>

@@ -14,7 +14,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(428, 304)
+        mainWindow.resize(293, 281)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../../../迅雷下载/开发者文件夹/Applications.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -25,7 +28,7 @@ class Ui_mainWindow(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 428, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 293, 26))
         self.menubar.setObjectName("menubar")
         self.menu_Exit = QtWidgets.QMenu(self.menubar)
         self.menu_Exit.setObjectName("menu_Exit")
@@ -77,7 +80,6 @@ class Ui_mainWindow(object):
         self.menu.addAction(self.actionFrequency_domain_denoising)
         self.menu.addAction(self.actionEdge_extraction)
         self.menu_2.addAction(self.actionAbout)
-        self.menu_2.addAction(self.actionAuthor)
         self.menubar.addAction(self.menu_Exit.menuAction())
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())

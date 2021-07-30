@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 from PyQt5 import QtGui
 import maingui
+import authorWin
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image
@@ -31,11 +32,11 @@ def showimg(img, isgray=False):
     plt.show()
 
 
+def openauthorWin():
+    QdialogWindow.show()
+
+
 # ------------------公共函数------------------end
-
-
-# ------------------全局变量------------------
-# ------------------全局变量------------------end
 
 
 # ------------------选项------------------
@@ -53,6 +54,10 @@ def click_openImage():
     image = QtGui.QPixmap(open_image_path.name)
     # 在label里面，调用setPixmap命令，建立一个图像存放框，并将之前的图像png存放在这个框框里。
     maingui.label.setPixmap(image)
+    # 防止盗为己用注释
+    # author:文东柳
+    # Email:wendongliu@likefy.top
+    # 2021/7/30
 
 
 # 退出程序
@@ -97,6 +102,10 @@ def click_actionGray_histogram():  # 1
     # maingui.label_2.setPixmap('D:/test2.jpg')
     #
     #  开始直方图均衡化，使用equalizeHist函数，导入灰度处理后的图片
+    # 防止盗为己用注释
+    # author:文东柳
+    # Email:wendongliu@likefy.top
+    # 2021/7/30
     # equ = cv2.equalizeHist(open_image_path.name)
     #  将两张图片按照水平方式堆叠起来，这样看起来比较有对比
     # res = np.hstack((src, equ))
@@ -157,6 +166,10 @@ def click_actionHistogram_equalization():  # 2灰度变化
     im_l.show()
     # im_arr = np.array(im_gray)
     # im1 = 255 - im_arr
+    # 防止盗为己用注释
+    # author:文东柳
+    # Email:wendongliu@likefy.top
+    # 2021/7/30
     # showimg(Image.fromarray(im1))
 
     print('code=2.0')
@@ -203,9 +216,9 @@ def click_actionGray_inversion():  # 3几何变换
     # 获取图像 height
     print(img.size[1])
 
-    img_2 = img.resize((img.size[0] * 2, img.size[1] * 2), Image.ANTIALIAS)  # 放大两倍
+    img_Wendongliu = img.resize((img.size[0] * 2, img.size[1] * 2), Image.ANTIALIAS)  # 放大两倍
     img.show()
-    img_2.show()
+    img_Wendongliu.show()
     print('code=3.1,end')
 
     img_3 = img.resize((int(img.size[0] * 0.5), int(img.size[1] * 0.5)), Image.ANTIALIAS)  # 缩小两倍
@@ -213,9 +226,9 @@ def click_actionGray_inversion():  # 3几何变换
     print('code=3.2,end')
 
     # mg = img.transpose(Image.ROTATE_90)  # 将图片旋转90度
-    img_4 = img.transpose(Image.ROTATE_180)  # 将图片旋转180度
+    img_4wendongliu = img.transpose(Image.ROTATE_180)  # 将图片旋转180度
     # img = img.transpose(Image.ROTATE_270)  # 将图片旋转270度
-    img_4.show()
+    img_4wendongliu.show()
     # img.save("img/rotateImg.png")
     print('code=3.3,end')
 
@@ -223,7 +236,7 @@ def click_actionGray_inversion():  # 3几何变换
     rows, cols, _ = img.shape
     M = np.float32([[1, 0, -100], [0, 1, 50]])
     dst = cv2.warpAffine(img, M, (cols, rows))
-    cv2.imshow("2", dst)
+    cv2.imshow("2Wendongliu", dst)
     print('code=3.4,end')
 
 
@@ -316,12 +329,21 @@ def click_actionEdge_extraction():  # 8
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+
     MainWindow = QMainWindow()
     maingui = maingui.Ui_mainWindow()
     maingui.setupUi(MainWindow)
+
+    QdialogWindow = QDialog()
+    authorWin = authorWin.Ui_Dialog()
+    authorWin.setupUi(QdialogWindow)
+
+
     # 选项
     maingui.actionOpenFile.triggered.connect(click_openImage)  # 连接信号与槽
-    maingui.action12.triggered.connect(click_Exit)  # 连接信号与槽
+    maingui.action12.triggered.connect(click_Exit)  # 连接信号与槽Wendongliu
+
+
     # 操作
     maingui.actionGray_histogram.triggered.connect(click_actionGray_histogram)  # 1
     maingui.actionHistogram_equalization.triggered.connect(click_actionHistogram_equalization)  # 2
@@ -332,5 +354,12 @@ if __name__ == '__main__':
     # maingui.actionFrequency_domain_denoising.triggered.connect(click_actionFrequency_domain_denoising)  # 7
     maingui.actionEdge_extraction.triggered.connect(click_actionEdge_extraction)  # 8
 
+
+    # 关于
+    maingui.actionAbout.triggered.connect(openauthorWin)
+
+
     MainWindow.show()
+
+
     sys.exit(app.exec_())
